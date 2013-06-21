@@ -1,6 +1,12 @@
 """
 Tools for handling USGS earthquake data feeds.
 
+This module provides a simple way of retrieving earthquake data
+for a given minimum severity level and time period from a web
+service run by the USGS Earthquake Hazards Program.  It also
+provides the means to generate a Google map showing earthquake
+locations and other details.
+
 Feeds and a description of their format are available at
 http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
 """
