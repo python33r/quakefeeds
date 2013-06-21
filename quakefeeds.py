@@ -83,7 +83,7 @@ def generate_map(data, filename=None):
         mag = feature["properties"]["mag"]
         place = feature["properties"]["place"]
         lon, lat, _ = feature["geometry"]["coordinates"]
-        map_data.append("[{}, {}, 'M{}: {}'],".format(lat, lon, mag, place))
+        map_data.append('[{}, {}, "M{}: {}"],'.format(lat, lon, mag, place))
 
     html = MAP_TEMPLATE.substitute(data="\n".join(map_data))
 
