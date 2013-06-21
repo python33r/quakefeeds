@@ -92,17 +92,3 @@ def generate_map(data, filename=None):
             print(html, file=outfile)
 
     return html
-
-
-if __name__ == '__main__':
-    import sys
-
-    try:
-        level = sys.argv[1]
-        period = sys.argv[2]
-        filename = sys.argv[3]
-    except:
-        sys.exit("Usage: python quakes.py <level> <period> <filename>")
-
-    data = get_data(level, period)
-    generate_map(data, filename)
