@@ -14,6 +14,7 @@ http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
 from string import Template
 import urllib.request
 import json
+import io
 
 
 URL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/{}_{}.geojson"
@@ -67,15 +68,16 @@ def get_data(level, period):
     return data
 
 
-def generate_map(data, filename=None):
+def generate_map(data, output=None):
     """Plots earthquakes from the given GeoJSON dataset on a Google map.
 
        The location of each earthquake will be marked.  Clicking on a
        marker will display an info bubble containing the magnitude of the
        quake and a description of its location.
 
-       The HTML for the map is returned as a string.  If a filename is
-       specified, the HTML will also be written to a file with that name.
+       The HTML for the map is returned as a string.  If a filename or a
+       file-like object that supports text output is specified as a second
+       argument, the HTML will also be written to that destination.
     """
 
     map_data = []
@@ -87,8 +89,12 @@ def generate_map(data, filename=None):
 
     html = MAP_TEMPLATE.substitute(data="\n".join(map_data))
 
-    if filename:
-        with open(filename, "wt") as outfile:
+    if isinstance(output, str):
+        with open(output, "wt") as outfile:
             print(html, file=outfile)
+    elif isinstance(output, io.TextIOBase):
+        if not output.writable():
+            raise ValueError("destination not writable")
+        print(html, file=output)
 
     return html
