@@ -11,10 +11,8 @@ Feeds and a description of their format are available at
 http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
 """
 
-from string import Template
-import urllib.request
-import json
-import io
+import urllib.request, json, io
+from jinja2 import Environment, FileSystemLoader
 
 
 URL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/{}_{}.geojson"
@@ -22,29 +20,8 @@ URL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/{}_{}.geojson"
 ALLOWED_LEVELS = ("significant", "4.5", "2.5", "1.0", "all")
 ALLOWED_PERIODS = ("hour", "day", "week", "month")
 
-MAP_TEMPLATE = Template("""\
-<!DOCTYPE html>
-<html>
-<head>
-<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script type="text/javascript">
-google.load("visualization", "1", {packages:["map"]});
-google.setOnLoadCallback(drawMap);
-function drawMap() {
-var data = new google.visualization.arrayToDataTable([
-['Lat', 'Lon', 'Details'],
-$data
-]);
-var map = new google.visualization.Map(document.getElementById('map'));
-map.draw(data, {showTip: true});
-}
-</script>
-<title>Earthquake Map</title>
-</head>
-<body>
-<div id="map" style="width:800px; height:500px"></div>
-</body>
-</html>""")
+TEMPLATE_PATH = "."
+TEMPLATE_FILE = "map-template.html"
 
 
 def get_data(level, period):
@@ -80,14 +57,16 @@ def generate_map(data, output=None):
        argument, the HTML will also be written to that destination.
     """
 
-    map_data = []
+    quakes = []
     for feature in data["features"]:
         mag = feature["properties"]["mag"]
         place = feature["properties"]["place"]
         lon, lat, _ = feature["geometry"]["coordinates"]
-        map_data.append('[{}, {}, "M{}: {}"],'.format(lat, lon, mag, place))
+        quakes.append((lat, lon, mag, place))
 
-    html = MAP_TEMPLATE.substitute(data="\n".join(map_data))
+    env = Environment(loader=FileSystemLoader(TEMPLATE_PATH))
+    template = env.get_template(TEMPLATE_FILE)
+    html = template.render(quakes=quakes)
 
     if isinstance(output, str):
         with open(output, "wt") as outfile:
