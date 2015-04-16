@@ -14,7 +14,7 @@ http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php.
 
 Here are some examples of use:
 
-```pycon
+```python
 >>> from quakefeeds import QuakeFeed
 >>> feed = QuakeFeed("4.5", "day")
 >>> feed.title
