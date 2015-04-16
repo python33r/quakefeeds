@@ -1,5 +1,5 @@
 # Simple test program for quakefeeds module
-# (NDE 2013-06-21)
+# (NDE 2015-04-16)
 
 import sys
 from quakefeeds import QuakeFeed
@@ -12,4 +12,4 @@ except:
     sys.exit("Usage: python quakemap.py <level> <period> <filename>")
 
 feed = QuakeFeed(level, period)
-feed.create_google_map(filename)
+feed.create_google_map(filename, style="titled")

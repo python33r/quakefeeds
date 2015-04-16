@@ -30,7 +30,7 @@ class QuakeFeed:
     the 'data' attribute.
     """
 
-    DEFAULT_TEMPLATE_FILE = "map-template.html"
+    MAP_STYLES = ("plain", "annotated")
 
     def __init__(self, level, period):
         """
@@ -177,6 +177,12 @@ class QuakeFeed:
 
         return datetime.fromtimestamp(t, tz=timezone.utc)
 
+    def event_title(self, index):
+        """
+        Returns the title of an event, given its index.
+        """
+        return self[index]["properties"]["title"]
+
     def location(self, index):
         """
         Returns a 2-element list containing the longitude and latitude
@@ -203,12 +209,6 @@ class QuakeFeed:
         """
         return self[index]["geometry"]["coordinates"][2]
 
-    def title(self, index):
-        """
-        Returns the title of an event, given its index.
-        """
-        return self[index]["properties"]["title"]
-
     # Other methods
 
     def refresh(self):
@@ -225,7 +225,7 @@ class QuakeFeed:
 
         self.data = response.json()
 
-    def create_google_map(self, output=None, env=None, tpfile=None):
+    def create_google_map(self, output=None, **kwargs):
         """
         Plots events from this feed on a Google map.
 
@@ -243,6 +243,25 @@ class QuakeFeed:
 
         from jinja2 import Environment, PackageLoader
 
+        # Set up Jinja2 environment and template
+
+        env = kwargs.get("env")
+
+        if env is None:
+            env = Environment(loader=PackageLoader("quakefeeds"))
+            style = kwargs.get("style", "plain")
+            if style not in self.MAP_STYLES:
+                raise ValueError("invalid map style")
+            tpfile = style + ".html"
+        else:
+            if not isinstance(env, Environment):
+                raise ValueError("env must be a Jinja2 Environment")
+            tpfile = kwargs.get("tpfile")
+            if tpfile is None:
+                raise ValueError("tpfile argument not supplied")
+
+        # Extract plottable data
+
         max_points = 300   # Google API limit
 
         map_data = []
@@ -252,14 +271,10 @@ class QuakeFeed:
             lon, lat, _ = event["geometry"]["coordinates"]
             map_data.append((lat, lon, mag, place))
 
-        if env is None:
-            env = Environment(loader=PackageLoader("quakefeeds"))
-
-        if tpfile is None:
-            tpfile = self.DEFAULT_TEMPLATE_FILE
+        # Render template using extracted event data
 
         template = env.get_template(tpfile)
-        html = template.render(data=map_data)
+        html = template.render(data=map_data, feed=self)
 
         if isinstance(output, str):
             with open(output, "wt") as outfile:
