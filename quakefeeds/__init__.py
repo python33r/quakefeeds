@@ -123,7 +123,7 @@ class QuakeFeed:
     @property
     def event_times(self):
         """
-        A generate that allows iteration over all event times.
+        A generator that allows iteration over all event times.
         """
         for event in self.data["features"]:
             t = event["properties"]["time"] / 1000.0
@@ -239,6 +239,13 @@ class QuakeFeed:
 
         The Jinja2 template engine (http://jinja.pocoo.org) is required.
         ImportError will be raised if this is not available.
+
+        Use the 'style' keyword argument to specify a built-in style;
+        the default is 'plain'.
+
+        If you wish to provide your own template, you will need to supply
+        a Jinja2 Environment object using the 'env' keyword argument *and*
+        a template filename using the 'tpfile' keyboard argument.
         """
 
         from jinja2 import Environment, PackageLoader
