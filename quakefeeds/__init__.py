@@ -241,7 +241,7 @@ class QuakeFeed:
         ImportError will be raised if this is not available.
         """
 
-        from jinja2 import Environment, FileSystemLoader
+        from jinja2 import Environment, PackageLoader
 
         max_points = 300   # Google API limit
 
@@ -253,7 +253,7 @@ class QuakeFeed:
             map_data.append((lat, lon, mag, place))
 
         if env is None:
-            env = Environment(loader=FileSystemLoader("."))
+            env = Environment(loader=PackageLoader("quakefeeds"))
 
         if tpfile is None:
             tpfile = self.DEFAULT_TEMPLATE_FILE

@@ -3,7 +3,7 @@ quakefeeds
 
 Python 3 tools for handling USGS earthquake data feeds.
 
-The `quakefeeds` module provides a class `QuakeFeed` that captures data
+The `quakefeeds` package provides a class `QuakeFeed` that captures data
 from a GeoJSON feed, given a valid severity level and time period.
 The class provides some shortcuts for accessing data of interest within
 the feed and provides other useful methods - e.g. one to generate a simple
