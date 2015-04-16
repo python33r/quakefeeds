@@ -24,9 +24,10 @@ datetime.datetime(2015, 4, 16, 19, 18, 39, tzinfo=datetime.timezone.utc)
 >>> len(feed)
 6
 >>> feed[0]
-# Returns full JSON data for first event in feed
+{'properties': {'cdi': 1, 'tsunami': 0, 'alert': None, ...}
+# full JSON data for first event in feed
 >>> feed.location(0)
-47km SW of Karpathos, Greece
+[26.8608, 35.135]
 >>> feed.magnitude(0)
 6.1
 >>> feed.title(0)
