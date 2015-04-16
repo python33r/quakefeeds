@@ -203,6 +203,12 @@ class QuakeFeed:
         """
         return self[index]["geometry"]["coordinates"][2]
 
+    def title(self, index):
+        """
+        Returns the title of an event, given its index.
+        """
+        return self[index]["properties"]["title"]
+
     # Other methods
 
     def refresh(self):
@@ -223,14 +229,13 @@ class QuakeFeed:
         """
         Plots events from this feed on a Google map.
 
-        The location of each event will be marked.  Clicking on a
-        marker will display an info bubble containing the magnitude
-        of the event and a description of its location.
+        The location of each event will be marked.  Clicking on a marker
+        will display an info bubble containing the magnitude of the event
+        and a description of its location.
 
-        The HTML for the map is returned as a string.  If a filename
-        or a file-like object that supports text output is given as a
-        second argument, the HTML will also be written to that
-        destination.
+        The HTML for the map is returned as a string.  If a filename or
+        a file-like object that supports text output is given as a second
+        argument, the HTML will also be written to that destination.
 
         The Jinja2 template engine (http://jinja.pocoo.org) is required.
         ImportError will be raised if this is not available.
