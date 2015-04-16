@@ -2,7 +2,7 @@
 # (NDE 2013-06-21)
 
 import sys
-from quakefeeds import get_data, generate_map
+from quakefeeds import QuakeFeed
 
 try:
     level = sys.argv[1]
@@ -11,5 +11,5 @@ try:
 except:
     sys.exit("Usage: python quakemap.py <level> <period> <filename>")
 
-data = get_data(level, period)
-generate_map(data, filename)
+feed = QuakeFeed(level, period)
+feed.create_google_map(filename)

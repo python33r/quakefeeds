@@ -11,7 +11,7 @@
     function drawMap() {
       var data = new google.visualization.arrayToDataTable([
         ['Lat', 'Lon', 'Details'],
-        {%- for lat, lon, mag, place in quakes %}
+        {%- for lat, lon, mag, place in data %}
         [{{ lat }}, {{ lon }}, "M{{ mag }}: {{ place }}"],
         {%- endfor %}
       ]);
