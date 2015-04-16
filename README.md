@@ -12,7 +12,8 @@ Google map showing quake locations and other details.
 The data feeds and a description of their GeoJSON format are available at
 http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php.
 
-Here are some examples of use:
+Examples of Use
+---------------
 
 ```python
 >>> from quakefeeds import QuakeFeed
@@ -39,4 +40,16 @@ datetime.datetime(2015, 4, 16, 19, 18, 39, tzinfo=datetime.timezone.utc)
 >>> list(feed.depths)
 [20.86, 46.35, 76.54, 48.69, 10, 28.64]
 >>> feed.create_google_map("quakemap.html")
+>>> feed.create_google_map("quakemap2.html", style="titled")
 ```
+
+Dependencies
+------------
+
+* Python 3 is required.
+
+* [Requests](http://python-requests.org) is used to acquire feed data.
+
+* The [Jinja2](http://jinja.pocoo.org) template engine is needed if you wish
+  to produce maps from a feed using the ``create_google_map`` method, but
+  otherwise does not need to be installed.
