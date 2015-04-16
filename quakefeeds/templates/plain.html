@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description" content="Earthquake Map">
-  <title>Earthquake Map</title>
+  <title>{% block title %}Earthquake Map{% endblock %}</title>
   <script src="http://www.google.com/jsapi"></script>
   <script>
     google.load("visualization", "1", {packages:["map"]});
@@ -21,6 +21,8 @@
   </script>
 </head>
 <body>
+  {% block beforemap %}{% endblock %}
   <div id="map" style="width:800px; height:500px"></div>
+  {% block aftermap %}{% endblock %}
 </body>
 </html>

@@ -30,7 +30,7 @@ class QuakeFeed:
     the 'data' attribute.
     """
 
-    MAP_STYLES = ("plain", "annotated")
+    MAP_STYLES = ("plain", "titled")
 
     def __init__(self, level, period):
         """

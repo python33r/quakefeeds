@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="Earthquake Map">
-  <title>{{ feed.title }}</title>
-  <script src="http://www.google.com/jsapi"></script>
-  <script>
-    google.load("visualization", "1", {packages:["map"]});
-    google.setOnLoadCallback(drawMap);
-    function drawMap() {
-      var data = new google.visualization.arrayToDataTable([
-        ['Lat', 'Lon', 'Details'],
-        {%- for lat, lon, mag, place in data %}
-        [{{ lat }}, {{ lon }}, "M{{ mag }}: {{ place }}"],
-        {%- endfor %}
-      ]);
-      var map = new google.visualization.Map(document.getElementById('map'));
-      map.draw(data, {showTip: true});
-    }
-  </script>
-</head>
-<body>
+{% extends "plain.html" %}
+{% block title %}{{ feed.title }}{% endblock %}
+{%- block beforemap -%}
   <h2>{{ feed.title }}</h2>
-  <div id="map" style="width:800px; height:500px"></div>
+{%- endblock %}
+{%- block aftermap -%}
   <p>{{ feed|length }} events plotted.</p>
   <p>Data captured: {{ feed.time }}</p>
-</body>
-</html>
+{%- endblock %}
