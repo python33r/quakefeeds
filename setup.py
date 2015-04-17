@@ -9,16 +9,18 @@ setup(
   author="Nick Efford",
   author_email="nick.efford@gmail.com",
   packages=find_packages(),
-  package_data = {
+  package_data={
     "": ["templates/*.html"],
   },
-  scripts=[
-    "scripts/quakemap.py",
-  ],
   install_requires=[
     "Requests",
     "Jinja2",
   ],
+  entry_points={
+    "console_scripts": [
+      "quakemap=quakefeeds.scripts.quakemap:main",
+    ],
+  },
   platforms="any",
   license="MIT",
   keywords="data json science seismology usgs",
