@@ -4,7 +4,7 @@ setup(
   name="quakefeeds",
   version="0.2",
   description="Python 3 tools for handling USGS earthquake data feeds",
-  long_description=open("README.md").read(),
+  long_description=open("README.rst").read(),
   url="https://github.com/python33r/quakefeeds",
   author="Nick Efford",
   author_email="nick.efford@gmail.com",
