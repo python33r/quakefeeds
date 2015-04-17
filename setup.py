@@ -9,7 +9,9 @@ setup(
   author="Nick Efford",
   author_email="nick.efford@gmail.com",
   packages=find_packages(),
-  include_package_data=True,
+  package_data = {
+    "": ["templates/*.html"],
+  },
   scripts=[
     "scripts/quakemap.py",
   ],
