@@ -20,6 +20,7 @@ setup(
   entry_points={
     "console_scripts": [
       "quakemap=quakefeeds.scripts.quakemap:main",
+      "quakestats=quakefeeds.scripts.quakestats:main",
     ],
   },
   platforms="any",
@@ -27,7 +28,7 @@ setup(
   keywords="data json science seismology usgs",
   classifiers=[
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.4",
     "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",

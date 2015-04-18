@@ -1,7 +1,10 @@
 """
 quakemap
 
-Generates a Google map of the earthquakes in a USGS data feed.
+Generates a Google map of the earthquakes in a USGS data feed,
+the latter being specified via severity level and period.
+Severity level can be "significant", "4.5", "2.5", "1.0", "all".
+Period can be "hour", "day", "week", "month".
 
 Usage: quakemap [options] <level> <period>
 

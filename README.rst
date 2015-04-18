@@ -53,6 +53,7 @@ The installation process will install some scripts in addition to the
 ``quakefeeds`` package:
 
 * ``quakemap``, which plots earthquakes on a Google map
+* ``quakestats``, which computes basic statistics for a feed
 
 
 Dependencies
