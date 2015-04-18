@@ -225,23 +225,19 @@ class QuakeFeed:
 
         self.data = response.json()
 
-    def create_google_map(self, output=None, **kwargs):
+    def create_google_map(self, **kwargs):
         """
-        Plots events from this feed on a Google map.
+        Plots events from this feed on a Google map, returning the HTML
+        for the map as a string.
 
         The location of each event will be marked.  Clicking on a marker
         will display an info bubble containing the magnitude of the event
         and a description of its location.
 
-        The HTML for the map is returned as a string.  If a filename or
-        a file-like object that supports text output is given as a second
-        argument, the HTML will also be written to that destination.
-
-        The Jinja2 template engine (http://jinja.pocoo.org) is required.
-        ImportError will be raised if this is not available.
-
-        Use the 'style' keyword argument to specify a built-in style;
-        the default is 'plain'.
+        The Jinja2 template engine (http://jinja.pocoo.org) is used to
+        generate the HTML.  This can be used either with built-in templates
+        or with your own.  A built-in template is selected using the
+        'style' keyword argument; the default is 'plain'.
 
         If you wish to provide your own template, you will need to supply
         a Jinja2 Environment object using the 'env' keyword argument *and*
@@ -283,12 +279,28 @@ class QuakeFeed:
         template = env.get_template(tpfile)
         html = template.render(data=map_data, feed=self)
 
-        if isinstance(output, str):
+        return html
+
+    def write_google_map(self, output=None, **kwargs):
+        """
+        Calls create_google_map to generate a map in HTML form, then
+        writes this map to the given destination.
+
+        Destinations can be specified either as a filename or as a
+        file-like object that has already been opened for text output.
+        If no destination is specified, the map is written to stdout.
+        """
+
+        html = self.create_google_map(**kwargs)
+
+        if output is None:
+            print(html)
+        elif isinstance(output, str):
             with open(output, "wt") as outfile:
                 print(html, file=outfile)
         elif isinstance(output, io.TextIOBase):
             if not output.writable():
-                raise ValueError("destination not writable")
+                raise IOError("destination not writable")
             print(html, file=output)
-
-        return html
+        else:
+            raise ValueError("unsuitable output")

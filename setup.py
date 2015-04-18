@@ -15,6 +15,7 @@ setup(
   install_requires=[
     "Requests",
     "Jinja2",
+    "docopt",
   ],
   entry_points={
     "console_scripts": [
